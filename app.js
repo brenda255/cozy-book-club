@@ -53,6 +53,23 @@ function displayBooks(books) {
         bookDiv.appendChild(descrElem);
 
         results.appendChild(bookDiv);
+
+
+        //buttons for the three shelves
+        const shelves = ["Want to Read", "Reading", "Read"];
+        const buttonContainer = document.createElement("div");
+
+        shelves.forEach(shelf => {
+            let btn = document.createElement("button");
+            btn.textContent = shelf;
+            btn.addEventListener("click", () => {
+                saveToShelf(book, shelf);
+                alert(`Added "${book.volumeInfo.title}" to ${shelf} shelf.`);
+            });
+            buttonContainer.appendChild(btn);
+
+        });
+        bookDiv.appendChild(buttonContainer);
         
     });
 }
