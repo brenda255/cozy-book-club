@@ -43,3 +43,16 @@ body {
 .book-card p {
     margin: 5px 0;
 }
+.book-card button {
+    margin-right: 8px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #4682b4;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.book-card button:hover {
+    background-color: #315f7d;
+}
