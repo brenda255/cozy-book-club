@@ -85,6 +85,34 @@ function displayBooks(books) {
       });
 
       localStorage.setItem("bookShelves", JSON.stringify(shelves));
+      displayShelves();
     }
   });
+
+
+  function displayShelves() {
+    const shelvesContainer = document.getElementById("shelvesContainer");
+    shelvesContainer.innerHTML = ""; // this clears it before repopulating 
+
+    const shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
+
+    for (let shelfName in shelves) {
+        let shelfDiv = document.createElement("div");
+        shelfDiv.className = "shelf-section";
+
+        let heading = document.createElement("h3");
+        heading.textContent = shelfName;
+        shelfDiv.appendChild(heading);
+
+        shelves[shelfName].forEach(book => {
+            let p = document.createElement("p");
+            p.textContent = `${book.title} by ${book.authors ? book.authors.join(", ") : "Unknown Author"}`;
+            shelfDiv.appendChild(p);
+        });
+
+        shelvesContainer.appendChild(shelfDiv);
+    }
+  }
+
+  window.addEventListener("load", displayShelves);
 }

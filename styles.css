@@ -56,3 +56,10 @@ body {
 .book-card button:hover {
     background-color: #315f7d;
 }
+
+.shelf-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+}
