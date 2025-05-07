@@ -64,7 +64,6 @@ function displayBooks(books) {
       btn.textContent = shelf;
       btn.addEventListener("click", () => {
         saveToShelf(book, shelf);
-        alert(`Added "${book.volumeInfo.title}" to ${shelf} shelf.`);
       });
       buttonContainer.appendChild(btn);
     });
@@ -79,12 +78,21 @@ function displayBooks(books) {
       shelves[shelfName] = [];
     }
 
+    let alreadyExists = shelves[shelfName].some((b) => b.id === book.id);
+
+    if(!alreadyExists) {
     shelves[shelfName].push({
       title: book.volumeInfo.title,
       authors: book.volumeInfo.authors,
       id: book.id,
     });
 
+    localStorage.setItem("bookShelves", JSON.stringify(shelves));
+    displayShelves();
+    alert(`Added "${book.volumeInfo.title}" to ${shelfName} shelf.`);
+  } else {
+    alert(`"${book.volumeInfo.title}" is already in the ${shelfName} shelf.`)
+  }
     localStorage.setItem("bookShelves", JSON.stringify(shelves));
     displayShelves();
   }
