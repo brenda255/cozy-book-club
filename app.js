@@ -125,7 +125,14 @@ function displayBooks(books) {
 
           modal.classList.remove("hidden");
 
+          //remove modal on cancel
+          confirmNo.onclick = () => modal.classList.add("hidden");
+
+          //add a one time click event to confirmyes
+          confirmYes.onclick = () => {
             removeBookFromShelf(shelf, id);
+            modal.classList.add("hidden")
+          }
         })
       });
 
