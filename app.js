@@ -69,50 +69,82 @@ function displayBooks(books) {
       buttonContainer.appendChild(btn);
     });
     bookDiv.appendChild(buttonContainer);
-
-    //save items to local storage
-    function saveToShelf(book, shelfName) {
-      let shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
-
-      if (!shelves[shelfName]) {
-        shelves[shelfName] = [];
-      }
-
-      shelves[shelfName].push({
-        title: book.volumeInfo.title,
-        authors: book.volumeInfo.authors,
-        id: book.id,
-      });
-
-      localStorage.setItem("bookShelves", JSON.stringify(shelves));
-      displayShelves();
-    }
   });
 
+  //save items to local storage
+  function saveToShelf(book, shelfName) {
+    let shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
+
+    if (!shelves[shelfName]) {
+      shelves[shelfName] = [];
+    }
+
+    shelves[shelfName].push({
+      title: book.volumeInfo.title,
+      authors: book.volumeInfo.authors,
+      id: book.id,
+    });
+
+    localStorage.setItem("bookShelves", JSON.stringify(shelves));
+    displayShelves();
+  }
 
   function displayShelves() {
     const shelvesContainer = document.getElementById("shelvesContainer");
-    shelvesContainer.innerHTML = ""; // this clears it before repopulating 
+    shelvesContainer.innerHTML = ""; // this clears it before repopulating
 
     const shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
 
     for (let shelfName in shelves) {
-        let shelfDiv = document.createElement("div");
-        shelfDiv.className = "shelf-section";
+      let shelfDiv = document.createElement("div");
+      shelfDiv.className = "shelf-section";
 
-        let heading = document.createElement("h3");
-        heading.textContent = shelfName;
-        shelfDiv.appendChild(heading);
+      let heading = document.createElement("h3");
+      heading.textContent = shelfName;
+      shelfDiv.appendChild(heading);
 
-        shelves[shelfName].forEach(book => {
-            let p = document.createElement("p");
-            p.textContent = `${book.title} by ${book.authors ? book.authors.join(", ") : "Unknown Author"}`;
-            shelfDiv.appendChild(p);
-        });
+      shelves[shelfName].forEach((book) => {
+        let p = document.createElement("p");
+        p.textContent = `${book.title} by ${book.authors ? book.authors.join(", ") : "Unknown Author"
+        }`;
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "Remove";
+        p.appendChild(removeButton);
+        shelfDiv.appendChild(p);
 
-        shelvesContainer.appendChild(shelfDiv);
+        removeButton.dataset.shelf = shelfName;
+        removeButton.dataset.bookId = book.id;
+
+        removeButton.addEventListener("click", (e) => {
+          let shelf = e.target.dataset.shelf;
+          let id = e.target.dataset.bookId;
+
+          const modal = document.getElementById("confirmModal");
+          const confirmYes = document.getElementById("confirmYes");
+          const confirmNo = document.getElementById("confirmNo");
+
+          modal.classList.remove("hidden");
+
+            removeBookFromShelf(shelf, id);
+        })
+      });
+
+      shelvesContainer.appendChild(shelfDiv);
     }
   }
 
+  function removeBookFromShelf (shelfName, bookId) {
+    //Get all shelves
+    let shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
+    //Filter out the book with the matching id
+    if (shelves[shelfName]) {
+      shelves[shelfName] = shelves[shelfName].filter(book => book.id !== bookId);
+    }
+    //save the updated shelves back to localstorage
+    localStorage.setItem("bookShelves", JSON.stringify(shelves));
+
+    //Re-render the shelves
+    displayShelves();
+  }
   window.addEventListener("load", displayShelves);
 }
