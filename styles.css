@@ -22,8 +22,10 @@ body {
 }
 
 #results {
-    flex: 3
-}
+    display: flex;
+    flex-wrap: wrap;      
+    gap: 15px; 
+    justify-content: flex-start;}
 
 /* --- LAYOUT HEADER --- */
 .header {
@@ -161,7 +163,9 @@ body {
     border-radius: 10px;
     display: flex;
     gap: 15px;
+    flex: 0 1 200px; 
     max-width: 600px;
+    width: 100%;   
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -203,6 +207,32 @@ body {
 .book-card button:hover {
     background-color: #6d4331;
 }
+
+/* --- Book Details --- */
+.book-details p {
+    max-height: 200px;       
+    overflow-y: auto;        
+    padding-right: 5px;     
+    margin-bottom: 20px; 
+    font-size: .6rem;    
+  }
+
+  .book-details button {
+    padding: 5px 8px;       
+    margin-right: 10px;      
+    font-size: 0.4em;        
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #8e5c44;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .book-details button:last-child {
+    margin-right: 0;         
+  }
+
 
 /* --- SHELF SECTION --- */
 .shelf-section {

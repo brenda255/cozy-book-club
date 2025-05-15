@@ -1,8 +1,17 @@
 let searchBtn = document.getElementById("searchBtn");
+let searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    searchBtn.click(); 
+  }
+});
 
 searchBtn.addEventListener("click", function () {
-  let query = document.getElementById("searchInput").value;
+  let query = searchInput.value;
 
+  
   fetch(
     `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`
   )
