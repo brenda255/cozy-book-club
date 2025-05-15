@@ -1,40 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Cozy Book Club</title>
 </head>
+
 <body>
-    <h1>Cozy Book Club 📚</h1>
+    <div class="header">
+        <div class="header-title">Cozy Book Club</div>
 
-    <!-- Search -->
-<input type="text" id="searchInput" placeholder="Search by title, genre, or mood">
-<button id="searchBtn">Search</button>
+        <!-- Search -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search books...">
+            <button id="searchBtn">Search</button>
+        </div>
+        <!-- My Book Shelves -->
+        <hr>
+        <button class="shelves-toggle" onclick="toggleShelves()">My Book Shelves</button>
+    </div>
 
-    <!-- My Book Shelves -->
-<hr>
-<h2>My Book Shelves📚 </h2>
-<div id="shelvesContainer"></div>
+
+    <div class="shelves-content">
     <!-- Display the results-->
-<div id="results"></div>
-
+    <div id="results"></div>
 
     <!-- Shelves -->
-     <div id="wantToRead"><h3>Want To Read</h3></div>
-     <div id="reading"><h3>Currently Reading</h3></div>
-     <div id="read"><h3>Read</h3></div>
+    <div id="shelvesContainer">
+        <div id="wantToRead">
+            <h3>Want To Read</h3>
+        </div>
+        <div id="reading">
+            <h3>Currently Reading</h3>
+        </div>
+        <div id="read">
+            <h3>Read</h3>
+        </div>
+    </div>
+</div>
 
 
-     <div id="confirmModal" class="modal hidden">
+    <div id="confirmModal" class="modal hidden">
         <div class="modal-content">
             <p>Are you sure you want to remove this book?</p>
+            <div class="modal-buttons">
             <button id="confirmYes">Yes</button>
             <button id="confirmNo">Cancel</button>
         </div>
-     </div>
-     <script src="app.js"></script>
+        </div>
+    </div>
+    <script src="app.js"></script>
 </body>
-</html>
 
+</html>

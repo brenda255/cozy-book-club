@@ -15,6 +15,11 @@ searchBtn.addEventListener("click", function () {
     });
 });
 
+function toggleShelves() {
+  const container = document.getElementById('shelvesContainer');
+  container.style.display = container.style.display === 'none' || container.style.display === '' ? 'block' : 'none';
+}
+
 function displayBooks(books) {
   let results = document.getElementById("results");
   results.innerHTML = "";
@@ -114,73 +119,80 @@ function displayBooks(books) {
     localStorage.setItem("bookShelves", JSON.stringify(shelves));
     displayShelves();
   }
-
-  function displayShelves() {
-    const shelvesContainer = document.getElementById("shelvesContainer");
-    shelvesContainer.innerHTML = ""; // this clears it before repopulating
-
-    const shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
-
-    for (let shelfName in shelves) {
-      let shelfDiv = document.createElement("div");
-      shelfDiv.className = "shelf-section";
-
-      let heading = document.createElement("h3");
-      heading.textContent = shelfName;
-      shelfDiv.appendChild(heading);
-
-      shelves[shelfName].forEach((book) => {
-        let p = document.createElement("p");
-        p.textContent = `${book.title} by ${
-          book.authors ? book.authors.join(", ") : "Unknown Author"
-        }`;
-        const removeButton = document.createElement("button");
-        removeButton.textContent = "Remove";
-        p.appendChild(removeButton);
-        shelfDiv.appendChild(p);
-
-        removeButton.dataset.shelf = shelfName;
-        removeButton.dataset.bookId = book.id;
-
-        removeButton.addEventListener("click", (e) => {
-          let shelf = e.target.dataset.shelf;
-          let id = e.target.dataset.bookId;
-
-          const modal = document.getElementById("confirmModal");
-          const confirmYes = document.getElementById("confirmYes");
-          const confirmNo = document.getElementById("confirmNo");
-
-          modal.classList.remove("hidden");
-
-          //remove modal on cancel
-          confirmNo.onclick = () => modal.classList.add("hidden");
-
-          //add a one time click event to confirmyes
-          confirmYes.onclick = () => {
-            removeBookFromShelf(shelf, id);
-            modal.classList.add("hidden");
-          };
-        });
-      });
-
-      shelvesContainer.appendChild(shelfDiv);
-    }
-  }
-
-  function removeBookFromShelf(shelfName, bookId) {
-    //Get all shelves
-    let shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
-    //Filter out the book with the matching id
-    if (shelves[shelfName]) {
-      shelves[shelfName] = shelves[shelfName].filter(
-        (book) => book.id !== bookId
-      );
-    }
-    //save the updated shelves back to localstorage
-    localStorage.setItem("bookShelves", JSON.stringify(shelves));
-
-    //Re-render the shelves
-    displayShelves();
-  }
-  window.addEventListener("load", displayShelves);
 }
+
+function removeBookFromShelf(shelfName, bookId) {
+  //Get all shelves
+  let shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
+  //Filter out the book with the matching id
+  if (shelves[shelfName]) {
+    shelves[shelfName] = shelves[shelfName].filter(
+      (book) => book.id !== bookId
+    );
+  }
+  //save the updated shelves back to localstorage
+  localStorage.setItem("bookShelves", JSON.stringify(shelves));
+
+  //Re-render the shelves
+  displayShelves();
+}
+
+
+function displayShelves() {
+  const shelvesContainer = document.getElementById("shelvesContainer");
+  shelvesContainer.innerHTML = ""; // this clears it before repopulating
+
+  const shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
+
+  for (let shelfName in shelves) {
+    let shelfDiv = document.createElement("div");
+    shelfDiv.className = "shelf-section";
+
+    let heading = document.createElement("h3");
+    heading.textContent = shelfName;
+    shelfDiv.appendChild(heading);
+
+    shelves[shelfName].forEach((book) => {
+      let bookCard = document.createElement("div");
+      bookCard.className = "book-card";
+      
+      let bookInfo = document.createElement("span");
+      bookInfo.textContent = `${book.title} by ${
+        book.authors ? book.authors.join(", ") : "Unknown Author"
+      }`;
+      
+      const removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
+
+      bookCard.appendChild(bookInfo);
+      bookCard.appendChild(removeButton);
+      shelfDiv.appendChild(bookCard);
+
+      removeButton.dataset.shelf = shelfName;
+      removeButton.dataset.bookId = book.id;
+
+      removeButton.addEventListener("click", (e) => {
+        let shelf = e.target.dataset.shelf;
+        let id = e.target.dataset.bookId;
+
+        const modal = document.getElementById("confirmModal");
+        const confirmYes = document.getElementById("confirmYes");
+        const confirmNo = document.getElementById("confirmNo");
+
+        modal.classList.remove("hidden");
+
+        //remove modal on cancel
+        confirmNo.onclick = () => modal.classList.add("hidden");
+
+        //add a one time click event to confirmyes
+        confirmYes.onclick = () => {
+          removeBookFromShelf(shelf, id);
+          modal.classList.add("hidden");
+        };
+      });
+    });
+
+    shelvesContainer.appendChild(shelfDiv);
+  }
+}
+window.addEventListener("load", displayShelves);
