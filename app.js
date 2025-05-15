@@ -23,52 +23,70 @@ function displayBooks(books) {
     let info = book.volumeInfo;
 
     let title = info.title || "No title";
-    let authors = info.authors ? info.authors.join(", ") : "Unkown author";
+    let authors = info.authors ? info.authors.join(", ") : "Unknown author";
     let description = info.description || "No description available.";
     let thumbnail = info.imageLinks ? info.imageLinks.thumbnail : "";
 
-    //container div for each book
+    // Main book card
     let bookDiv = document.createElement("div");
     bookDiv.classList.add("book-card");
 
-    //add thumbnail if there is one
+    // Always visible part (image, title, author)
+    let summaryDiv = document.createElement("div");
+    summaryDiv.classList.add("book-summary");
+
     if (thumbnail) {
       let img = document.createElement("img");
       img.src = thumbnail;
       img.alt = title;
-      bookDiv.appendChild(img);
+      summaryDiv.appendChild(img);
     }
 
-    //add title, author and desc.
     let titleElem = document.createElement("h3");
     titleElem.textContent = title;
 
     let authorElem = document.createElement("p");
     authorElem.textContent = "By: " + authors;
 
+    summaryDiv.appendChild(titleElem);
+    summaryDiv.appendChild(authorElem);
+
+    // Hidden detailed info
+    let detailsDiv = document.createElement("div");
+    detailsDiv.classList.add("book-details", "hidden");
+
     let descrElem = document.createElement("p");
     descrElem.textContent = description;
 
-    bookDiv.appendChild(titleElem);
-    bookDiv.appendChild(authorElem);
-    bookDiv.appendChild(descrElem);
-
-    results.appendChild(bookDiv);
-
-    //buttons for the three shelves
+    // Buttons for three shelves
     const shelves = ["Want to Read", "Reading", "Read"];
     const buttonContainer = document.createElement("div");
 
     shelves.forEach((shelf) => {
       let btn = document.createElement("button");
       btn.textContent = shelf;
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevent toggle when clicking a button
         saveToShelf(book, shelf);
       });
       buttonContainer.appendChild(btn);
     });
-    bookDiv.appendChild(buttonContainer);
-  });
+
+    detailsDiv.appendChild(descrElem);
+    detailsDiv.appendChild(buttonContainer);
+
+    // Toggle when clicking on book to show more info
+    summaryDiv.addEventListener("click", () => {
+      detailsDiv.classList.toggle("hidden");
+    });
+
+    // Append to book card
+    bookDiv.appendChild(summaryDiv);
+    bookDiv.appendChild(detailsDiv);
+
+    results.appendChild(bookDiv);
+  });  
+
 
   //save items to local storage
   function saveToShelf(book, shelfName) {
@@ -80,19 +98,19 @@ function displayBooks(books) {
 
     let alreadyExists = shelves[shelfName].some((b) => b.id === book.id);
 
-    if(!alreadyExists) {
-    shelves[shelfName].push({
-      title: book.volumeInfo.title,
-      authors: book.volumeInfo.authors,
-      id: book.id,
-    });
+    if (!alreadyExists) {
+      shelves[shelfName].push({
+        title: book.volumeInfo.title,
+        authors: book.volumeInfo.authors,
+        id: book.id,
+      });
 
-    localStorage.setItem("bookShelves", JSON.stringify(shelves));
-    displayShelves();
-    alert(`Added "${book.volumeInfo.title}" to ${shelfName} shelf.`);
-  } else {
-    alert(`"${book.volumeInfo.title}" is already in the ${shelfName} shelf.`)
-  }
+      localStorage.setItem("bookShelves", JSON.stringify(shelves));
+      displayShelves();
+      alert(`Added "${book.volumeInfo.title}" to ${shelfName} shelf.`);
+    } else {
+      alert(`"${book.volumeInfo.title}" is already in the ${shelfName} shelf.`);
+    }
     localStorage.setItem("bookShelves", JSON.stringify(shelves));
     displayShelves();
   }
@@ -113,7 +131,8 @@ function displayBooks(books) {
 
       shelves[shelfName].forEach((book) => {
         let p = document.createElement("p");
-        p.textContent = `${book.title} by ${book.authors ? book.authors.join(", ") : "Unknown Author"
+        p.textContent = `${book.title} by ${
+          book.authors ? book.authors.join(", ") : "Unknown Author"
         }`;
         const removeButton = document.createElement("button");
         removeButton.textContent = "Remove";
@@ -139,21 +158,23 @@ function displayBooks(books) {
           //add a one time click event to confirmyes
           confirmYes.onclick = () => {
             removeBookFromShelf(shelf, id);
-            modal.classList.add("hidden")
-          }
-        })
+            modal.classList.add("hidden");
+          };
+        });
       });
 
       shelvesContainer.appendChild(shelfDiv);
     }
   }
 
-  function removeBookFromShelf (shelfName, bookId) {
+  function removeBookFromShelf(shelfName, bookId) {
     //Get all shelves
     let shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
     //Filter out the book with the matching id
     if (shelves[shelfName]) {
-      shelves[shelfName] = shelves[shelfName].filter(book => book.id !== bookId);
+      shelves[shelfName] = shelves[shelfName].filter(
+        (book) => book.id !== bookId
+      );
     }
     //save the updated shelves back to localstorage
     localStorage.setItem("bookShelves", JSON.stringify(shelves));
