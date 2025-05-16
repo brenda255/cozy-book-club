@@ -208,6 +208,14 @@ body {
     background-color: #6d4331;
 }
 
+.book-summary h3 {
+    font-size: 1.1rem;
+}
+.book-summary p {
+    font-size: .7rem;
+}
+
+
 /* --- Book Details --- */
 .book-details p {
     max-height: 200px;       
