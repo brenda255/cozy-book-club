@@ -11,6 +11,7 @@ searchInput.addEventListener("keydown", function(event) {
 searchBtn.addEventListener("click", function () {
   let query = searchInput.value;
 
+  document.getElementById("quote-banner").style.display = "none";
   
   fetch(
     `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`
@@ -204,4 +205,29 @@ function displayShelves() {
     shelvesContainer.appendChild(shelfDiv);
   }
 }
+
+// Quote Banner
+const quotes = [
+  "“A reader lives a thousand lives before he dies. The man who never reads lives only one.” – George R.R. Martin",
+  "“So many books, so little time.” – Frank Zappa",
+  "“Until I feared I would lose it, I never loved to read. One does not love breathing.” – Harper Lee",
+  "“Reading is essential for those who seek to rise above the ordinary.” – Jim Rohn",
+  "“Books are a uniquely portable magic.” – Stephen King"
+];
+let quoteIndex = 0;
+const quoteBanner = document.getElementById("quote-banner");
+
+function rotateQuote() {
+  quoteBanner.style.opacity = 0;
+  setTimeout(() => {
+    quoteBanner.textContent = quotes[quoteIndex];
+    quoteBanner.style.opacity = 1;
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+  }, 500);
+}
+rotateQuote();
+setInterval(rotateQuote, 6000); //rotates quotes every 6 secs
+
+
+
 window.addEventListener("load", displayShelves);
