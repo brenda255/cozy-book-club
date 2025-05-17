@@ -77,7 +77,7 @@ function displayNewReleases(books) {
     const authorElem = document.createElement("p");
     authorElem.textContent = "By: " + authors;
 
-  summaryDiv.appendChild(titleElem);
+    summaryDiv.appendChild(titleElem);
     summaryDiv.appendChild(authorElem);
 
     const detailsDiv = document.createElement("div");
@@ -301,7 +301,7 @@ function rotateQuote() {
   }, 500);
 }
 rotateQuote();
-setInterval(rotateQuote, 10000); //rotates quotes every 6 secs
+setInterval(rotateQuote, 8000); //rotates quotes every 8 secs
 
 
 window.addEventListener("DOMContentLoaded", () => {

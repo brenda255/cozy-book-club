@@ -143,15 +143,17 @@ body {
 }
 
 #shelvesContainer {
-    flex: 1;
     display: none;
     background-color: #fff7ed;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     min-width: 220px;
+    max-width: 90vw;
+    width: auto;
     max-height: 80vh;
     overflow-y: auto;
+    margin: 0 auto;
 }
 
 #shelvesContainer h2 {
