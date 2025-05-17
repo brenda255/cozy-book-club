@@ -11,7 +11,17 @@ searchInput.addEventListener("keydown", function(event) {
 searchBtn.addEventListener("click", function () {
   let query = searchInput.value;
 
+  if (query.trim() === "") {
+    document.getElementById("quote-banner").style.display = "block";
+    document.getElementById("newReleasesContainer").style.display = "block";
+    document.getElementById("newReleasesTitle").style.display = "block";
+    return;
+  }
+  
   document.getElementById("quote-banner").style.display = "none";
+  document.getElementById("newReleasesContainer").style.display = "none";
+  document.getElementById("newReleasesTitle").style.display = "none";
+
   
   fetch(
     `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`
@@ -24,6 +34,71 @@ searchBtn.addEventListener("click", function () {
       console.error("Error fetching books:", error);
     });
 });
+
+function fetchNewReleases(){
+  fetch("https://www.googleapis.com/books/v1/volumes?q=fiction&orderBy=newest&maxResults=8")
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.items) {
+        displayNewReleases(data.items);
+      }
+    })
+    .catch((error) => console.error("Error fetching new releases: ", error));
+}
+
+
+function displayNewReleases(books) {
+  const newReleasesContainer = document.getElementById("newReleasesContainer");
+  newReleasesContainer.innerHTML = "";
+
+  books.forEach((book) => {
+    const info = book.volumeInfo;
+    const title = info.title || "No title";
+    const authors = info.authors ? info.authors.join(", ") : "Unknown author";
+    const description = info.description || "No description available.";
+    const thumbnail = info.imageLinks ? info.imageLinks.thumbnail : "";
+
+    const bookDiv = document.createElement("div");
+    bookDiv.classList.add("book-card");
+
+    if (thumbnail) {
+      const img = document.createElement("img");
+      img.src = thumbnail;
+      img.alt = title;
+      bookDiv.appendChild(img);
+    }
+
+    const summaryDiv = document.createElement("div");
+    summaryDiv.classList.add("book-summary");
+
+
+    const titleElem = document.createElement("h4");
+    titleElem.textContent = title;
+    const authorElem = document.createElement("p");
+    authorElem.textContent = "By: " + authors;
+
+  summaryDiv.appendChild(titleElem);
+    summaryDiv.appendChild(authorElem);
+
+    const detailsDiv = document.createElement("div");
+    detailsDiv.classList.add("book-details", "hidden");
+
+    const descrElem = document.createElement("p");
+    descrElem.textContent = description;
+
+    detailsDiv.appendChild(descrElem);
+
+    summaryDiv.addEventListener("click", () => {
+      detailsDiv.classList.toggle("hidden");
+    });
+
+    bookDiv.appendChild(summaryDiv);
+    bookDiv.appendChild(detailsDiv);
+
+    newReleasesContainer.appendChild(bookDiv);
+  });    
+  }
+
 
 function toggleShelves() {
   const container = document.getElementById('shelvesContainer');
@@ -226,8 +301,10 @@ function rotateQuote() {
   }, 500);
 }
 rotateQuote();
-setInterval(rotateQuote, 6000); //rotates quotes every 6 secs
+setInterval(rotateQuote, 10000); //rotates quotes every 6 secs
 
 
-
-window.addEventListener("load", displayShelves);
+window.addEventListener("DOMContentLoaded", () => {
+  displayShelves();
+  fetchNewReleases();
+});

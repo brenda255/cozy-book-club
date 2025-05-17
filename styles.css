@@ -15,6 +15,13 @@ body {
     background-color: #fdf6f0;
 }
 
+#homeLink {
+    text-decoration: none;
+    cursor: pointer;
+    color: #4a2c2a;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }  
+
 .shelves-content {
     display: flex;
     gap: 30px;
@@ -33,12 +40,36 @@ body {
     width: 100vw;
     background-color: #fdf6e3;
     color: #333;
-    padding: 20px;
+    padding: 2.2rem;
     font-style: italic;
     font-size: 1.2rem;
     text-align: center;
     border-bottom: 1px solid #ccc;
     transition: opacity 0.5s ease;
+}
+
+/* New Releases Section */
+#newReleasesSection h2 {
+    font-size: 1.8rem;
+    color: #4a2c2a;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-bottom: 2px solid #e0cbb4;
+    padding-bottom: 8px;
+    font-family: 'Georgia', serif;
+    text-align: center;
+}
+
+#newReleasesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+#newReleasesContainer .book-card {
+    flex: 1 1 220px;
+    max-width: 300px;
 }
 
 
