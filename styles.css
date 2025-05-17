@@ -351,3 +351,81 @@ body {
 .hidden {
     display: none;
 }
+
+
+/* media queries */
+/*  Tablets  ( ≤ 900 px ) */
+@media (max-width: 900px) {
+
+    /* stack header elements */
+    .header{
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+      padding: 20px;
+    }
+  
+    /* search bar grows full-width */
+    .search-bar{
+      width: 100%;
+      justify-content: center;
+    }
+    .search-bar input[type="text"]{
+      width: 100%;
+      max-width: 420px;
+    }
+  
+    /* results and shelves now flow under each other
+       instead of side-by-side                                       */
+    .shelves-content{
+      flex-direction: column;
+      gap: 40px;
+    }
+    #results{
+      justify-content: center;   /* center book cards */
+    }
+  }
+  
+  /* ───────────────────────────────────────
+      Mobile / small phones  ( ≤ 600 px )
+     ─────────────────────────────────────── */
+  @media (max-width: 600px){
+  
+    /* shrink quote banner text a bit */
+    .quote-banner{
+      font-size: 1rem;
+      padding: 1.6rem;
+    }
+  
+    /* title + author in cards */
+    .book-card h3{
+      font-size: 1rem;
+    }
+    .book-card p{
+      font-size: .65rem;
+    }
+  
+    /* picture & layout */
+    .book-card{
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 320px;
+    }
+    .book-card img{
+      width: 75px;
+    }
+  
+    /* buttons inside details */
+    .book-details button{
+      font-size: .55rem;
+      padding: 6px 10px;
+    }
+  
+    /* shelves modal-sized container */
+    #shelvesContainer{
+      max-width: 95vw;
+      min-width: 0;
+      padding: 12px;
+    }
+  }
