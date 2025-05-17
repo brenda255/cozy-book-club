@@ -12,8 +12,29 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 20px;
-    background-color: #fdf6f0;
+    background-color: var(--bg);
 }
+
+:root{
+    /* light theme */
+    --bg        : #fdf6f0;
+    --text      : #333;
+    --card      : #ffffff;
+    --cardBorder: #ccc;
+    --headerBG  : #ffe6cc;
+    --accent    : #a0613c;
+    --accentDark: #844d2e;
+  }
+  
+  [data-theme="dark"]{
+    --bg        : #1e1e1e;
+    --text      : #dddddd;
+    --card      : #2a2a2a;
+    --cardBorder: #3a3a3a;
+    --headerBG  : #2d261f;
+    --accent    : #d19b74;
+    --accentDark: #e4b188;
+  }
 
 #homeLink {
     text-decoration: none;
@@ -38,8 +59,8 @@ body {
 /* Quote Banner */
 .quote-banner {
     width: 100vw;
-    background-color: #fdf6e3;
-    color: #333;
+    background-color: var(--headerBG);
+    color: var(--text);
     padding: 2.2rem;
     font-style: italic;
     font-size: 1.2rem;
@@ -78,7 +99,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffe6cc;
+    background-color: var(--headerBG);
     padding: 15px 30px;
     border-radius: 10px;
     margin-bottom: 30px;
@@ -177,8 +198,8 @@ body {
     font-size: 0.5em;
     margin-bottom: 10px;
     padding: 8px 10px;
-    background-color: #fff3e6;
-    border: 1px solid #f0d9c1;
+    background-color: var(--card);
+    border: 1px solid var(--cardBorder);
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
@@ -204,8 +225,8 @@ body {
 
 /* --- BOOK DISPLAY --- */
 .book-card {
-    border: 1px solid #ccc;
-    background-color: #fff;
+    border: 1px solid var(--cardBorder);
+    background-color: var(--card);
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 10px;
@@ -245,7 +266,7 @@ body {
     margin-right: 8px;
     padding: 5px 10px;
     border: none;
-    background-color: #8e5c44;
+    background-color: var(--accent);
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -253,7 +274,7 @@ body {
 }
 
 .book-card button:hover {
-    background-color: #6d4331;
+    background-color: var(--accentDark);
 }
 
 .book-summary h3 {
@@ -280,7 +301,7 @@ body {
     font-size: 0.4em;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #8e5c44;
+    background-color: var(--accent);
     color: white;
     border: none;
     transition: background-color 0.3s ease;
@@ -351,6 +372,17 @@ body {
 .hidden {
     display: none;
 }
+
+/* dark mode toggle */
+#themeToggle{
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: transform .2s;
+  }
+  #themeToggle:hover{ transform: scale(1.15); }
+  
 
 
 /* media queries */

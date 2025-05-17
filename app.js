@@ -1,10 +1,10 @@
 let searchBtn = document.getElementById("searchBtn");
 let searchInput = document.getElementById("searchInput");
 
-searchInput.addEventListener("keydown", function(event) {
+searchInput.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
-    searchBtn.click(); 
+    searchBtn.click();
   }
 });
 
@@ -17,12 +17,11 @@ searchBtn.addEventListener("click", function () {
     document.getElementById("newReleasesTitle").style.display = "block";
     return;
   }
-  
+
   document.getElementById("quote-banner").style.display = "none";
   document.getElementById("newReleasesContainer").style.display = "none";
   document.getElementById("newReleasesTitle").style.display = "none";
 
-  
   fetch(
     `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`
   )
@@ -35,8 +34,10 @@ searchBtn.addEventListener("click", function () {
     });
 });
 
-function fetchNewReleases(){
-  fetch("https://www.googleapis.com/books/v1/volumes?q=fiction&orderBy=newest&maxResults=8")
+function fetchNewReleases() {
+  fetch(
+    "https://www.googleapis.com/books/v1/volumes?q=fiction&orderBy=newest&maxResults=8"
+  )
     .then((response) => response.json())
     .then((data) => {
       if (data.items) {
@@ -46,7 +47,7 @@ function fetchNewReleases(){
     .catch((error) => console.error("Error fetching new releases: ", error));
 }
 
-
+//Display New Releases Function
 function displayNewReleases(books) {
   const newReleasesContainer = document.getElementById("newReleasesContainer");
   newReleasesContainer.innerHTML = "";
@@ -61,16 +62,15 @@ function displayNewReleases(books) {
     const bookDiv = document.createElement("div");
     bookDiv.classList.add("book-card");
 
+    const summaryDiv = document.createElement("div");
+    summaryDiv.classList.add("book-summary");
+
     if (thumbnail) {
       const img = document.createElement("img");
       img.src = thumbnail;
       img.alt = title;
-      bookDiv.appendChild(img);
+      summaryDiv.appendChild(img);
     }
-
-    const summaryDiv = document.createElement("div");
-    summaryDiv.classList.add("book-summary");
-
 
     const titleElem = document.createElement("h4");
     titleElem.textContent = title;
@@ -92,7 +92,6 @@ function displayNewReleases(books) {
       detailsDiv.classList.toggle("hidden");
     });
 
-
     // 3 shelf buttons
     const shelves = ["Want to Read", "Reading", "Read"];
     const buttonContainer = document.createElement("div");
@@ -105,20 +104,22 @@ function displayNewReleases(books) {
         saveToShelf(book, shelf);
       });
       buttonContainer.appendChild(btn);
-    })
+    });
 
     detailsDiv.appendChild(buttonContainer);
     bookDiv.appendChild(summaryDiv);
     bookDiv.appendChild(detailsDiv);
 
     newReleasesContainer.appendChild(bookDiv);
-  });    
-  }
-
+  });
+}
 
 function toggleShelves() {
-  const container = document.getElementById('shelvesContainer');
-  container.style.display = container.style.display === 'none' || container.style.display === '' ? 'block' : 'none';
+  const container = document.getElementById("shelvesContainer");
+  container.style.display =
+    container.style.display === "none" || container.style.display === ""
+      ? "block"
+      : "none";
 }
 
 function displayBooks(books) {
@@ -191,35 +192,7 @@ function displayBooks(books) {
     bookDiv.appendChild(detailsDiv);
 
     results.appendChild(bookDiv);
-  });  
-
-
-  //save items to local storage
-  function saveToShelf(book, shelfName) {
-    let shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
-
-    if (!shelves[shelfName]) {
-      shelves[shelfName] = [];
-    }
-
-    let alreadyExists = shelves[shelfName].some((b) => b.id === book.id);
-
-    if (!alreadyExists) {
-      shelves[shelfName].push({
-        title: book.volumeInfo.title,
-        authors: book.volumeInfo.authors,
-        id: book.id,
-      });
-
-      localStorage.setItem("bookShelves", JSON.stringify(shelves));
-      displayShelves();
-      alert(`Added "${book.volumeInfo.title}" to ${shelfName} shelf.`);
-    } else {
-      alert(`"${book.volumeInfo.title}" is already in the ${shelfName} shelf.`);
-    }
-    localStorage.setItem("bookShelves", JSON.stringify(shelves));
-    displayShelves();
-  }
+  });
 }
 
 function removeBookFromShelf(shelfName, bookId) {
@@ -238,6 +211,32 @@ function removeBookFromShelf(shelfName, bookId) {
   displayShelves();
 }
 
+//save items to local storage
+function saveToShelf(book, shelfName) {
+  let shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
+
+  if (!shelves[shelfName]) {
+    shelves[shelfName] = [];
+  }
+
+  let alreadyExists = shelves[shelfName].some((b) => b.id === book.id);
+
+  if (!alreadyExists) {
+    shelves[shelfName].push({
+      title: book.volumeInfo.title,
+      authors: book.volumeInfo.authors,
+      id: book.id,
+    });
+
+    localStorage.setItem("bookShelves", JSON.stringify(shelves));
+    displayShelves();
+    alert(`Added "${book.volumeInfo.title}" to ${shelfName} shelf.`);
+  } else {
+    alert(`"${book.volumeInfo.title}" is already in the ${shelfName} shelf.`);
+  }
+  localStorage.setItem("bookShelves", JSON.stringify(shelves));
+  displayShelves();
+}
 
 function displayShelves() {
   const shelvesContainer = document.getElementById("shelvesContainer");
@@ -256,12 +255,12 @@ function displayShelves() {
     shelves[shelfName].forEach((book) => {
       let bookCard = document.createElement("div");
       bookCard.className = "book-card";
-      
+
       let bookInfo = document.createElement("span");
       bookInfo.textContent = `${book.title} by ${
         book.authors ? book.authors.join(", ") : "Unknown Author"
       }`;
-      
+
       const removeButton = document.createElement("button");
       removeButton.textContent = "Remove";
 
@@ -303,7 +302,7 @@ const quotes = [
   "“So many books, so little time.” – Frank Zappa",
   "“Until I feared I would lose it, I never loved to read. One does not love breathing.” – Harper Lee",
   "“Reading is essential for those who seek to rise above the ordinary.” – Jim Rohn",
-  "“Books are a uniquely portable magic.” – Stephen King"
+  "“Books are a uniquely portable magic.” – Stephen King",
 ];
 let quoteIndex = 0;
 const quoteBanner = document.getElementById("quote-banner");
@@ -318,6 +317,23 @@ function rotateQuote() {
 }
 rotateQuote();
 setInterval(rotateQuote, 8000); //rotates quotes every 8 secs
+
+/* ── Dark / Light toggle ─ */
+const themeToggle   = document.getElementById('themeToggle');
+const preferred     = localStorage.getItem('theme');              
+
+// apply saved preference on load
+if (preferred){
+  document.documentElement.setAttribute('data-theme', preferred);
+}
+
+// toggle on click
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  const next    = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+});
 
 
 window.addEventListener("DOMContentLoaded", () => {
