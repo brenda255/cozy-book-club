@@ -22,6 +22,7 @@ body {
     --card      : #ffffff;
     --cardBorder: #ccc;
     --headerBG  : #ffe6cc;
+    --headline  : #4a2c2a;
     --accent    : #a0613c;
     --accentDark: #844d2e;
   }
@@ -32,6 +33,7 @@ body {
     --card      : #2a2a2a;
     --cardBorder: #3a3a3a;
     --headerBG  : #2d261f;
+    --headline  : #ffffff;
     --accent    : #d19b74;
     --accentDark: #e4b188;
   }
@@ -39,7 +41,7 @@ body {
 #homeLink {
     text-decoration: none;
     cursor: pointer;
-    color: #4a2c2a;
+    color: var(--text);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }  
 
@@ -72,7 +74,7 @@ body {
 /* New Releases Section */
 #newReleasesSection h2 {
     font-size: 1.8rem;
-    color: #4a2c2a;
+    color: var(--headline);
     margin-bottom: 20px;
     margin-top: 20px;
     border-bottom: 2px solid #e0cbb4;
@@ -93,6 +95,10 @@ body {
     max-width: 300px;
 }
 
+#newReleasesContainer .book-card h4{
+    color: var(--headline);
+  }
+
 
 /* --- LAYOUT HEADER --- */
 .header {
@@ -104,13 +110,6 @@ body {
     border-radius: 10px;
     margin-bottom: 30px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.header-title {
-    font-size: 1.8em;
-    font-family: 'Georgia', serif;
-    color: #4a2c2a;
-    font-weight: bold;
 }
 
 .search-bar {
@@ -223,6 +222,10 @@ body {
     transform: scale(1.05);
 }
 
+#shelvesContainer span {
+    color: var(--text);
+}
+
 /* --- BOOK DISPLAY --- */
 .book-card {
     border: 1px solid var(--cardBorder);
@@ -253,7 +256,7 @@ body {
 .book-card h3 {
     margin: 0;
     font-size: 1.2em;
-    color: #5a3e36;
+    color: var(--headline);
     cursor: pointer;
 }
 
@@ -293,6 +296,7 @@ body {
     padding-right: 5px;
     margin-bottom: 20px;
     font-size: .6rem;
+    color: var(--text);
 }
 
 .book-details button {
@@ -379,7 +383,17 @@ body {
     border: none;
     font-size: 1.4rem;
     cursor: pointer;
-    transition: transform .2s;
+    transition: transform .2s;all: unset; 
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    font-size: 18px; /* emoji size */
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    margin-left: 2rem;
   }
   #themeToggle:hover{ transform: scale(1.15); }
   

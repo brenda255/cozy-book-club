@@ -17,21 +17,20 @@
             <input type="text" id="searchInput" placeholder="Search books...">
             <button id="searchBtn">Search</button>
         </div>
+
+        <button id="themeToggle" aria-label="Toggle dark mode">
+            🌓
+        </button>      
+    
         <!-- My Book Shelves -->
-        <hr>
         <button class="shelves-toggle" onclick="toggleShelves()">My Book Shelves</button>
     </div>
 
-    <button id="themeToggle" aria-label="Toggle dark mode">
-        🌓
-    </button>      
 
     <div class="shelves-content">
 
-    <!-- Display the results-->
-    <div id="results"></div>
 
-    <!-- Shelves -->
+            <!-- Shelves -->
     <div id="shelvesContainer">
         <div id="wantToRead">
             <h3>Want To Read</h3>
@@ -44,6 +43,11 @@
         </div>
     </div>
 </div>
+
+
+    <!-- Display the results-->
+    <div id="results"></div>
+
 
 
     <!-- Quote Banner -->
