@@ -80,9 +80,9 @@ function displayNewReleases(books) {
     summaryDiv.appendChild(titleElem);
     summaryDiv.appendChild(authorElem);
 
+    // Details (initially hidden)
     const detailsDiv = document.createElement("div");
     detailsDiv.classList.add("book-details", "hidden");
-
     const descrElem = document.createElement("p");
     descrElem.textContent = description;
 
@@ -92,6 +92,22 @@ function displayNewReleases(books) {
       detailsDiv.classList.toggle("hidden");
     });
 
+
+    // 3 shelf buttons
+    const shelves = ["Want to Read", "Reading", "Read"];
+    const buttonContainer = document.createElement("div");
+
+    shelves.forEach((shelf) => {
+      const btn = document.createElement("button");
+      btn.textContent = shelf;
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        saveToShelf(book, shelf);
+      });
+      buttonContainer.appendChild(btn);
+    })
+
+    detailsDiv.appendChild(buttonContainer);
     bookDiv.appendChild(summaryDiv);
     bookDiv.appendChild(detailsDiv);
 
