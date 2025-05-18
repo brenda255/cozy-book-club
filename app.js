@@ -248,9 +248,29 @@ function displayShelves() {
     let shelfDiv = document.createElement("div");
     shelfDiv.className = "shelf-section";
 
+    let headerWrapper = document.createElement("div");
+    headerWrapper.className = "shelf-header";
+
     let heading = document.createElement("h3");
     heading.textContent = shelfName;
-    shelfDiv.appendChild(heading);
+    headerWrapper.appendChild(heading);
+
+    // clear all button
+    let clearBtn = document.createElement("button");
+    clearBtn.textContent = "Clear All"
+    clearBtn.className = "clear-shelf";
+    clearBtn.addEventListener("click", () => {
+      if (confirm(`Empty the "${shelfName}" shelf?`)) {
+        let shelves = JSON.parse(localStorage.getItem("bookShelves")) || {};
+        shelves[shelfName] = [];
+        localStorage.setItem("bookShelves", JSON.stringify(shelves));
+        displayShelves();
+      }
+    });
+    headerWrapper.appendChild(clearBtn);
+
+    shelfDiv.appendChild(headerWrapper);
+
 
     shelves[shelfName].forEach((book) => {
       let bookCard = document.createElement("div");

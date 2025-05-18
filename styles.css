@@ -226,6 +226,30 @@ body {
     color: var(--text);
 }
 
+/* Clear all button on shelves */
+#shelvesContainer .shelf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5em;
+  }  
+  .clear-shelf {
+    position: static;
+    background: none;
+    border: none;
+    color: var(--accentDark);
+    font-size: 0.8em;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  .clear-shelf:hover {
+    background-color: rgba(0,0,0,0.1);
+  }
+  
+
 /* --- BOOK DISPLAY --- */
 .book-card {
     border: 1px solid var(--cardBorder);
