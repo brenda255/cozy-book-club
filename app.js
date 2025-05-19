@@ -255,7 +255,7 @@ function displayShelves() {
     heading.textContent = shelfName;
     headerWrapper.appendChild(heading);
 
-    // clear all button
+    // clear all button for individual book shelves
     let clearBtn = document.createElement("button");
     clearBtn.textContent = "Clear All"
     clearBtn.className = "clear-shelf";
